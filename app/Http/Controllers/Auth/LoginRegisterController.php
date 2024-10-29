@@ -37,12 +37,14 @@ class LoginRegisterController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'level' => 'admin',
         ]);
 
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
+        
         return redirect()->route('dashboard')->withSuccess('You have succesfully registered & logged in!');
     }
 
