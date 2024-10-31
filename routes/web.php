@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginRegisterController;
 
 /*
@@ -24,6 +25,7 @@ Route::controller(LoginRegisterController::class)->group(function() {
     Route::get('/login', 'login')->name('login');
     Route::post('/authenticate', 'authenticate')->name('authenticate');
     Route::get('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/users','users')->name('users123');
     Route::post('/logout', 'logout')->name('logout');
 });
 
@@ -34,3 +36,11 @@ Route::get('restricted', function(){
 Route::get('restricted', function(){
     return "Anda adalah Admin!";
 }) ->middleware('admin');
+
+Route::controller(UserController::class)->group(function() {
+    Route::get('/users','users')->name('users123');
+});
+
+Route::resource('users', UserController::class);
+
+Route::resource('edit', UserController::class);
