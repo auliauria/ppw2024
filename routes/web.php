@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginRegisterController;
+use App\Http\Controllers\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,3 +45,8 @@ Route::controller(UserController::class)->group(function() {
 Route::resource('users', UserController::class);
 
 Route::resource('edit', UserController::class);
+
+Route::resource('gallery', GalleryController::class);
+Route::get('/gallery/{gallery}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
+Route::put('/gallery/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
+Route::delete('/gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
