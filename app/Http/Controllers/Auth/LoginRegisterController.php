@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegistrationSuccessMail;
 use Illuminate\Support\Facades\Storage;
 
 class LoginRegisterController extends Controller
@@ -44,13 +46,16 @@ class LoginRegisterController extends Controller
             $path = $request->file('photo')->storeAs('photos', $filenameSimpan);
         }
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'level' => 'admin',
             'photo' => $path
         ]);
+
+        Mail::to($user->email)->send(new RegistrationSuccessMail($user));
+
 
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
