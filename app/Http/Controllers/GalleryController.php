@@ -97,16 +97,16 @@ class GalleryController extends Controller
 
         if ($request->hasFile('picture')) {
             $filenameWithExt = $request->file('picture')->getClientOriginalName();
+            // Delete old image if exists
+            if ($post->picture && $post->picture != 'noimage.png') {
+                Storage::delete('public/posts_image/'.$post->picture);
+            }
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('picture')->getClientOriginalExtension();
             $basename = uniqid().time();
             $filenameSimpan = "{$basename}.{$extension}";
             $path = $request->file('picture')->storeAs('posts_image', $filenameSimpan);
 
-            // Delete old image if exists
-            if ($post->picture && $post->picture != 'noimage.png') {
-                Storage::delete('public/posts_image/'.$post->picture);
-            }
 
             $post->picture = $filenameSimpan;
         }

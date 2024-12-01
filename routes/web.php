@@ -48,9 +48,9 @@ Route::resource('users', UserController::class);
 Route::resource('edit', UserController::class);
 
 Route::resource('gallery', GalleryController::class);
-Route::get('/gallery/{gallery}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
-Route::put('/gallery/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
-Route::delete('/gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
+// Route::get('/gallery/{gallery}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
+// Route::put('/gallery/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
+// Route::delete('/gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 
 Route::get('/send-email', [SendEmailController::class, 'index'])->name('kirim-email');
 Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
