@@ -5,9 +5,23 @@
         <div class="card">
             <div class="card-header">Edit Image</div>
             <div class="card-body">
-                <form action="{{ route('galleries.update', $gallery->id) }}" method="POST" enctype="multipart/form-data">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('gallery.update', $gallery->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" class="form-control" value="{{ old('title', $gallery->title ?? '') }}" required>
+                    </div>                    
                     <div class="form-group">
                         <label for="description">Description</label>
                         <input type="text" name="description" class="form-control" value="{{ $gallery->description }}" required>
