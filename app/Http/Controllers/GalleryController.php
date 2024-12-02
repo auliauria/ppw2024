@@ -39,7 +39,7 @@ class GalleryController extends Controller
         $this->validate($request, [
             'title' => 'required|max:255',
             'description' => 'required',
-            'picture' => 'image|nullable|max:1999'
+            'picture' => 'image|nullable|max:5120'
         ]);
         if ($request->hasFile('picture')) {
             $filenameWithExt = $request->file('picture')->getClientOriginalName();
@@ -88,7 +88,7 @@ class GalleryController extends Controller
         $this->validate($request, [
             'title' => 'required|max:255',
             'description' => 'required',
-            'picture' => 'image|nullable|max:1999'
+            'picture' => 'image|nullable|max:5120'
         ]);
 
         $post = Post::findOrFail($id);
@@ -97,15 +97,15 @@ class GalleryController extends Controller
 
         if ($request->hasFile('picture')) {
             $filenameWithExt = $request->file('picture')->getClientOriginalName();
-            // Delete old image if exists
-            if ($post->picture && $post->picture != 'noimage.png') {
-                Storage::delete('public/posts_image/'.$post->picture);
-            }
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('picture')->getClientOriginalExtension();
             $basename = uniqid().time();
             $filenameSimpan = "{$basename}.{$extension}";
             $path = $request->file('picture')->storeAs('posts_image', $filenameSimpan);
+            // Delete old image if exists
+            if ($post->picture && $post->picture != 'noimage.png') {
+                Storage::delete('public/posts_image/'.$post->picture);
+            }
 
 
             $post->picture = $filenameSimpan;
